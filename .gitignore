@@ -12,3 +12,4 @@
 /localhost-cert.pem
 /localhost-privkey.pem
 /node_modules
+.DS_Store
