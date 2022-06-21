@@ -1,4 +1,4 @@
-const bbs = require('./template/js/bbs.js')
+const bbs = require('./bbs.js')
 const board = new bbs('posting.db')
 const fs = require('fs')
 const http2 = require('http2')
