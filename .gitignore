@@ -10,6 +10,8 @@
 /._write.html
 /.git
 *.crt
+*.key
+*.pem
 /synctest.js
 /test.js
 /node_modules
