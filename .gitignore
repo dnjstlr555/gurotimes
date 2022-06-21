@@ -9,7 +9,9 @@
 /._user.png
 /._write.html
 /.git
-/localhost-cert.pem
-/localhost-privkey.pem
+*.crt
+/synctest.js
+/test.js
 /node_modules
 .DS_Store
+*.bak

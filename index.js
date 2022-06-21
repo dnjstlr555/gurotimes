@@ -1,19 +1,18 @@
-const bbs = require('./bbs.js')
+const bbs = require('./template/js/bbs.js')
 const board = new bbs('posting.db')
 const fs = require('fs')
 const http2 = require('http2')
 const path = require('path')
 const url = require('url');
-const Timetable = require('comcigan-parser')
-const timetable = new Timetable()
+//const Timetable = require('comcigan-parser')
+//const timetable = new Timetable()
 const boards = ['Common','FirstGrade','SecondGrade','ThirdGrade']
 const SpecialPages = ['Future', 'GradeCalc', 'Calender','Files']
 const Locale = {'Common':'전체게시판', 'FirstGrade':'1학년 게시판','SecondGrade':'2학년 게시판','ThirdGrade':'3학년 게시판','Future':'진로진학', 'GradeCalc':'내신계산기', 'Calender':'시간표','Files':'자료실'}
 
-console.log("DWDAWDDAWDW")
 const server = http2.createSecureServer({
-    key: fs.readFileSync('localhost-privkey.pem'),
-    cert: fs.readFileSync('localhost-cert.pem')
+    key: fs.readFileSync('RootCA.key'),
+    cert: fs.readFileSync('RootCA.pem')
 });
 server.on('error', (err) => console.error(err));
 
@@ -22,25 +21,31 @@ function AddressToPath(Address) {
         const RawPath = Address.split('/')
         let FinalPath = RawPath[1]
         if(RawPath && RawPath.length>=2) {
+            FinalPath=path.join("template", FinalPath)
             for(let i=2;i<RawPath.length;i++) {
                 FinalPath=path.join(FinalPath,RawPath[i])
             }
+            console.log(FinalPath)
             if(fs.existsSync(FinalPath)) return FinalPath
         }
     }
     return null
 }
+
 let isTimetableReady=false
 let timetableResult, timetableTime;
+/*
 async function TimeTableGet() {
     await timetable.init()
-    await timetable.setSchool('구로고등학교')
+    await timetable.setSchool('랜덤고등학교')
     timetableResult = await timetable.getTimetable()
     timetableTime = timetable.getClassTime()
     isTimetableReady=true
     console.log("Timetable Ready")
 }
 TimeTableGet()
+
+*/
 server.on('stream', (stream, headers) => {
     const RawPath = decodeURI(headers[':path'])
     const Param = url.parse(RawPath,true);
@@ -87,8 +92,8 @@ server.on('stream', (stream, headers) => {
             const post=board.GetPost().find(e=>e.id==`${id}`)
             console.log(post)
             if(post!=undefined) {
-                const indexpost=fs.readFileSync('post.html')
-                const indexupper=fs.readFileSync('indexupper.html')
+                const indexpost=fs.readFileSync('template/post.html')
+                const indexupper=fs.readFileSync('template/indexupper.html')
                 stream.respond({
                     'content-type': 'text/html; charset=utf-8',
                     ':status': 200
@@ -110,8 +115,8 @@ server.on('stream', (stream, headers) => {
                     'content-type': 'text/html; charset=utf-8',
                     ':status': 200
                 });
-                const indexwrite=fs.readFileSync("write.html")
-                const indexupper=fs.readFileSync('indexupper.html')
+                const indexwrite=fs.readFileSync("template/write.html")
+                const indexupper=fs.readFileSync('template/indexupper.html')
                 stream.write(indexupper)
                 stream.write(`<div id='belong' data='${Param.query.belongid}'></div>`)
                 stream.write(indexwrite)
@@ -131,8 +136,8 @@ server.on('stream', (stream, headers) => {
     } else {
         console.log(BoardIndex)
         if(BoardIndex!=-1 || PageIndex!=-1) {
-            const indexupper=fs.readFileSync('indexupper.html')
-            const indexfooter=fs.readFileSync('indexfooter.html')
+            const indexupper=fs.readFileSync('template/indexupper.html')
+            const indexfooter=fs.readFileSync('template/indexfooter.html')
             stream.respond({
                 'content-type': 'text/html; charset=utf-8',
                 ':status': 200
@@ -156,7 +161,7 @@ server.on('stream', (stream, headers) => {
                         <div class="card">
                             <div class="profile"> 
                                 <div class="circle">
-                                    <img src="user.png" style="width:30px; margin-top: 13px;">
+                                    <img src="img/user.png" style="width:30px; margin-top: 13px;">
                                 </div>
                                 익명
                             </div>
@@ -178,12 +183,12 @@ server.on('stream', (stream, headers) => {
                     case 0: //Future
                         break;
                     case 1: //GradeCalc
-                        const indexcalc=fs.readFileSync('calc.html')
+                        const indexcalc=fs.readFileSync('template/calc.html')
                         stream.write(indexcalc)
                         break;
                     case 2: //Calender
                         if(isTimetableReady) {
-                            const indextime=fs.readFileSync('time.html')
+                            const indextime=fs.readFileSync('template/time.html')
                             stream.write(`<div id='table' data-table='${JSON.stringify(timetableResult)}' data-time='${JSON.stringify(timetableTime)}'></div>`)
                             stream.write(indextime)
                             

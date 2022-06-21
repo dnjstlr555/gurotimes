@@ -1,0 +1,90 @@
+<style>
+    .container {
+      width:35%;
+      padding:5px;
+      font-size: 17px;
+    }
+    #search{
+      font-size:15px;
+      height:auto;
+      width: 80%;
+      float: left;
+    }
+
+    input {
+        height:50px;
+        width: 100%;
+        font-size: 25px;
+        border: none;
+
+    }
+    input:focus {
+        outline-width: 0;
+        border: none;
+        width: 100%;
+        outline-color: none;
+    }
+    textarea{
+      height:600px;
+      font-size: 17px;
+      width:100%;
+      border:none;
+    }
+    textarea:focus {
+      font-size: 17px;
+      width:100%;
+      outline:none;
+    }
+   .button {
+      width: 100%;   
+      text-align:center; 
+   }
+   .button input{
+     width:10%;
+      padding: 10px;
+      border:1px solid #6496ff;
+      color: #3156a7;
+   }
+   .low{
+     width:100%;
+     display: inline-block;
+   }
+   .low img {
+     width:100%;
+   }
+   #AddPicture{
+     width:5%;
+     margin:10px;
+     padding: 0px;
+     border:1px solid #4974cf;
+     background-color: #e3f8fa;
+     text-align:center;
+     float:left;
+     border-radius: 15%;
+   }
+
+</style>
+<form method="get" action="/WritePost" class="WritePost">
+    <div class="card">
+        <input type="text" name="title" placeholder="제목" >
+    </div>
+    <div class="card">
+      <textarea type="text" name="article" placeholder="내용을 입력하세요"></textarea>
+      <div class="low">
+        <button id="AddPicture"><img src="img/plus.png"></button>
+        <button id="AddPicture"><img src="img/plus.png"></button>
+        <button id="AddPicture"><img src="img/plus.png"></button>
+        <button id="AddPicture"><img src="img/plus.png"></button>
+        <button id="AddPicture"><img src="img/plus.png"></button>
+      </div>
+    </div>
+   
+</div>
+<div class='button'>
+  <input type="submit" value="게시하기">
+</div>
+</form>
+<script type="text/javascript" src="js/write.js"></script>
+ 
+</body>
+</html>

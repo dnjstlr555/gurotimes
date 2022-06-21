@@ -21,7 +21,7 @@ for(let i=0;i<Comments.length;i++) {
     <div class="comment">
         <div class="profile"> 
             <div class="circle">
-            <img src="user.png" style="width:30px; margin-top: 13px;">
+            <img src="img/user.png" style="width:30px; margin-top: 13px;">
             </div>
             익명
         </div>

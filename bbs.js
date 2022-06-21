@@ -92,6 +92,6 @@ module.exports = class bbs {
     __ResetAll() {
         this.db=[]
         this.WriteDBToFile()
-        console.log("다지움")
+        console.log("Resetting all...")
     }
 }
